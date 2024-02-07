@@ -26,12 +26,16 @@ int main(int argc, char *argv[]) {
     int &b = a;
     const int c = 2;
     const int &d = c;
+    int &&e = 2;
+    const int &&f = 3;
 
     // void foo1(T&& arg) {
     foo1(a); // type(T) = int&
     foo1(b); // type(T) = int&
     foo1(c); // type(T) = const int&
     foo1(d); // type(T) = const int&
+    foo1(std::move(e)); // type(T) = int&&
+    foo1(std::move(f)); // type(T) = const int&&
 
 
 }

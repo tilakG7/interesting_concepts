@@ -27,9 +27,9 @@ void subprint(int& a) {
     std::cout << "void subprint(int& a){}" << std::endl;
 }
 
-// void subprint(const int a) {
-//     std::cout << "void subprint(const int a){}" << std::endl;
-// }
+void subprint(const int a) {
+    std::cout << "void subprint(const int a){}" << std::endl;
+}
 
 void subprint(const int& a) {
     std::cout << "void subprint(const int& a){}" << std::endl;
