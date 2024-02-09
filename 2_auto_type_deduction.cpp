@@ -10,9 +10,9 @@
 // will not compile.
 // auto is employing template type deduction, which does not 
 // assume {} = initializer list
-decltype(auto) bar() {
-    return {1, 2, 3, 4};
-}
+// decltype(auto) bar() {
+//     return {1, 2, 3, 4};
+// }
 
 int main() {
     auto a{3};
