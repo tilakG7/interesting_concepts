@@ -59,8 +59,8 @@ public:
                     }
                     tail.compare_exchange_weak(t, next); // Tail is behind, try to advance it
                 } else {
+                    std::shared_ptr<T> res = next->data; // Retrieve value before freeing
                     if (head.compare_exchange_weak(h, next)) {
-                        std::shared_ptr<T> res = next->data; // Retrieve value before freeing
                         delete h; // Free old head
                         return res;
                     }
@@ -68,4 +68,33 @@ public:
             }
         }
     }
+
+    // goal: consume data from head and return value in node
+    // check if data exists
+    // if data exists, consume from head
+    shared_ptr<T> dequeue() {
+        while(true) {
+            Node *h = head.load();
+            Node *h_next = h->next.load();
+            Node *t = tail.load();
+            if(h == head.load()) {
+                if(h == t) {
+                    if(h_next == nullptr) {
+                        return shared_ptr<T>();
+                    }
+                    tail.compare_exchange_weak(t, h_next);
+                } else {
+                    if(head.compare_exchange_weak(h, h_next)) {
+                        std::shared_ptr<T> res = h_next->data;
+                        delete h;
+                        return res;
+                    }
+                }
+            }
+
+        }
+    }
+   
+
+
 };
